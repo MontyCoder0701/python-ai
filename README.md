@@ -21,3 +21,13 @@ py -m venv env
 ```sh
 py -m pip install [library-name]
 ```
+
+## Downloading files
+
+```sh
+pip install gdown
+```
+
+```sh
+gdown https://raw.githubusercontent.com/devdio/datasets/main/doc_idx.csv
+```
