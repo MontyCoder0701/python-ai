@@ -55,6 +55,6 @@ import numpy as np
 df = pd.read_csv("iris.csv")
 print(df)
 
-sns.pairplot(df, hue="Species")
-
+df = df.drop(columns=["Id", "Species"])
+sns.pairplot(df, hue=["Species"])
 plt.show()
