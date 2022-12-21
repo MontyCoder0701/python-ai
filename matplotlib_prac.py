@@ -104,11 +104,10 @@ for i in range(4):
 
 # 이미지 표시
 fig, ax = plt.subplots(2, 2)
-plt.title("Cute animals")
 
-img1 = Image.open("cat.jpg")
-img2 = Image.open("dog1.jpg")
-img3 = Image.open("dog2.jpg")
+img1 = Image.open("img/cat.jpg")
+img2 = Image.open("img/dog1.jpg")
+img3 = Image.open("img/dog2.jpg")
 
 ax[0, 0].imshow(img1)
 ax[0, 1].imshow(img2)
