@@ -103,15 +103,24 @@ for i in range(4):
 #     x.plot(z)
 
 # 이미지 표시
-img = Image.open("cat.jpg")
+fig, ax = plt.subplots(2, 2)
+plt.title("Cute animals")
+
+img1 = Image.open("cat.jpg")
+img2 = Image.open("dog1.jpg")
+img3 = Image.open("dog2.jpg")
+
+ax[0, 0].imshow(img1)
+ax[0, 1].imshow(img2)
+ax[1, 0].imshow(img3)
+
 plt.figure(figsize=(5, 5))
-plt.imshow(img)
+# plt.imshow(img)
 plt.xticks([])
 plt.yticks([])
-plt.title("Cat")
 
-arr = np.array(img)
-print(arr)
-print(arr.shape)
+# arr = np.array(img)
+# print(arr)
+# print(arr.shape)
 
 plt.show()
