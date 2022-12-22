@@ -28,6 +28,17 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 py -m pip install [library-name]
 ```
 
+## Basics
+
+- numpy
+- pandas
+- matplotlib
+- seaborn
+
+## ML
+
+- knn
+
 ## Downloading files
 
 ```sh
@@ -35,5 +46,5 @@ pip install gdown
 ```
 
 ```sh
-gdown https://raw.githubusercontent.com/devdio/datasets/main/doc_idx.csv
+gdown [link for raw csv file]
 ```
