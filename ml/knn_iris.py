@@ -34,7 +34,7 @@ def get_iris(mode=None):
     y = df['species']
 
     # 섞고 test, train 나누기
-    x, y = shuffle(x, y)
+    x, y = shuffle(x, y, random_state=2022)
     num = int(len(y)*0.8)
 
     x_train = x.iloc[:num, :]
