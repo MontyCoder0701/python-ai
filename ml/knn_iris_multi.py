@@ -1,4 +1,4 @@
-# KNN Iris Dataset (Binary Classification)
+# KNN Iris Dataset (Multiclass Classification)
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,8 +7,6 @@ from sklearn.utils import shuffle
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from sklearn.metrics import confusion_matrix
-
-# 데이터 준비
 
 
 def get_iris(mode=None):
@@ -52,37 +50,48 @@ def get_iris(mode=None):
     return x_train, x_test, y_train, y_test
 
 
-x_train, x_test, y_train, y_test = get_iris(mode="bin")
+x_train, x_test, y_train, y_test = get_iris()
+print(x_train.shape, x_test.shape)
+print(y_train.shape, y_test.shape)
 
-# 학습
-clf = KNeighborsClassifier()
+x_train = x_train.values
+y_train = y_train.values
+
+x_test = x_test.values
+y_test = y_test.values
+
+scores = []
+
+for i in range(3, 30):
+    clf = KNeighborsClassifier(n_neighbors=i)
+    clf.fit(x_train, y_train)
+    s = clf.score(x_train, y_train)
+    scores.append(s)
+
+plt.plot(scores)
+plt.show()
+
+clf = KNeighborsClassifier(n_neighbors=12)
 clf.fit(x_train, y_train)
-
-# 평가
-clf.score(x_test, y_test)
-
 y_pred = clf.predict(x_test)
-(y_pred == y_test).sum() / len(y_test)
 
 
-def print_score(y_true, y_pred):
+def print_score(y_true, y_pred, average="binary"):
     acc = accuracy_score(y_true, y_pred)
-    pre = precision_score(y_true, y_pred)
-    rec = recall_score(y_true, y_pred)
+    pre = precision_score(y_true, y_pred, average=average)
+    rec = recall_score(y_true, y_pred, average=average)
 
     print("accuracy: ", acc)
     print("precision: ", pre)
     print("recall: ", rec)
 
 
-print_score(y_test, y_pred)
+print_score(y_test, y_pred, average="macro")
 
-# 혼동 행렬 (Confusion matrix)
 cfm = confusion_matrix(y_test, y_pred)
-print(cfm)
 
 plt.figure(figsize=(5, 5))
-sns.heatmap(cfm, annot=True, cbar=False)
+sns.heatmap(cfm, annot=True, cbar=False, fmt="d")
 plt.xlabel("Predicted Class")
 plt.ylabel("True Class")
 plt.show()
