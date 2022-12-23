@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.utils import shuffle
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.svm import SVC
 from sklearn.svm import LinearSVC
@@ -76,7 +76,49 @@ for name, model in zip(names, models):
 plt.plot(names, scores)
 plt.show()
 
-clf = SVC(kernel="poly", degree=3)
+# Grid search
+param_range = [0.001, 0.01, 0.1, 1, 10, 100, 1000]
+params = [
+    {
+        "C": param_range,
+        "gamma": param_range,
+        "kernel": ["rbf"]
+    },
+    {
+        "C": param_range,
+        "kernel": ["linear"]
+    },
+    {
+        "C": param_range,
+        "degree": [2, 3],
+        "kernel": ["poly"]
+    },
+]
+
+clf = SVC(random_state=2022)
+gs = GridSearchCV(estimator=clf, scoring="accuracy",
+                  cv=3, param_grid=params, n_jobs=-1, verbose=3)
+gs.fit(x_train, y_train)
+
+
+# 최적
+print(gs.best_estimator_)
+print(gs.best_score_)
+print(gs.best_params_)
+
+
+# 랜덤
+rs = RandomizedSearchCV(estimator=clf, scoring="accuracy",
+                        cv=3, param_distributions=params, n_jobs=-1, verbose=3)
+rs.fit(x_train, y_train)
+
+# 최적
+print(rs.best_estimator_)
+print(rs.best_score_)
+print(rs.best_params_)
+
+# 재학습
+clf = SVC(C=1000, gamma=0.01, kernel="rbf")
 clf.fit(x_train, y_train)
 
 # 평가
