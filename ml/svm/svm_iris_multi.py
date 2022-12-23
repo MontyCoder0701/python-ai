@@ -6,8 +6,11 @@ from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import StandardScaler
 
 # 데이터 준비
 
@@ -39,24 +42,45 @@ def get_iris(mode=None):
         x, y, test_size=0.2, random_state=2022)
 
 
-x_train, x_test, y_train, y_test = get_iris(mode="bin")
+x_train, x_test, y_train, y_test = get_iris()
 
 # print(x_train.shape, x_test.shape)
 # print(y_train.shape, y_test.shape)
 
 # 정규화
 scaler = MinMaxScaler()
+# scaler = StandardScaler()
 scaler.fit(x_train)
 x_train = scaler.transform(x_train)
 y_train = y_train.values
 
 # 학습
-clf = SVC(kernel="linear", random_state=2022)
+names = ["svc-lin", "lin-svc", "poly", "rbf", "knn"]
+
+models = [
+    SVC(kernel="linear", C=1),
+    LinearSVC(C=1, max_iter=1000),
+    SVC(kernel="poly", degree=3),
+    SVC(kernel="rbf", C=1, gamma=0.7),
+    KNeighborsClassifier(n_neighbors=5)
+]
+
+scores = []
+
+for name, model in zip(names, models):
+    model.fit(x_train, y_train)
+    s = model.score(x_train, y_train)
+    print(name, s)
+    scores.append(s)
+
+plt.plot(names, scores)
+plt.show()
+
+clf = SVC(kernel="poly", degree=3)
 clf.fit(x_train, y_train)
 
 # 평가
 print(clf.score(x_train, y_train))
-print(clf.intercept_)
 
 # 최종
 x_test = scaler.transform(x_test)
@@ -78,7 +102,7 @@ def print_score(y_true, y_pred, average="binary"):
     print("recall: ", rec)
 
 
-print_score(y_test, y_pred, average="binary")
+print_score(y_test, y_pred, average="macro")
 
 
 def plot_confusion_matrix(y_true, y_pred):
