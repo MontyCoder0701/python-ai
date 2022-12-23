@@ -38,6 +38,7 @@ py -m pip install [library-name]
 ## ML
 
 - knn
+- svm
 
 ## Downloading files
 
