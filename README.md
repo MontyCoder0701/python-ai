@@ -1,6 +1,6 @@
-# Fly AI Practice Codes
+# Python ML Codes 🐍
 
-Practice codes for Fly AI
+Covering basic algorithms for ML with Python
 
 ## Local development (Windows)
 
@@ -37,8 +37,9 @@ py -m pip install [library-name]
 
 ## ML
 
-- knn
-- svm
+- KNN
+- SVM
+- Decision Tree
 
 ## Downloading files
 
