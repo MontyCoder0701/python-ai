@@ -10,7 +10,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-df = pd.read_csv("ml/citrus.csv")
+df = pd.read_csv("ml/knn/citrus.csv")
 
 # See data info
 print(df.isna().sum())
