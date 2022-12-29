@@ -9,47 +9,36 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
 
 
 df = pd.read_csv("ml/knn/penguins.csv")
 
-df = df.dropna()
+df.dropna(subset=["bill_length_mm"], inplace=True)
+df["sex"].fillna("NONE", inplace=True)
 
 # See data info
 # print(df.isna().sum())
 # print(df.duplicated().sum())
 # print(df.describe().T)
 
+island_encoder = LabelEncoder()
+df["island"] = island_encoder.fit_transform(df["island"])
 
-df['species'] = df['species'].map({
-    'Adelie': 0,
-    'Chinstrap': 1,
-    'Gentoo': 2
-})
+sex_encoder = LabelEncoder()
+df["sex"] = sex_encoder.fit_transform(df["sex"])
 
-df['island'] = df['island'].map({
-    'Biscoe': 0,
-    'Dream': 1,
-    'Torgersen': 2,
-})
-
-
-df['sex'] = df['sex'].map({
-    'MALE': 0,
-    'FEMALE': 1,
-})
-
-print(df)
-
+# X, Y 분리
 x = df.drop(['species'], axis=1)
 y = df['species']
 
-# Shuffle, split dataset
+# 학습셋 분리
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size=0.2, random_state=2022)
+    x, y, test_size=0.2, stratify=y, random_state=2022)
 
-print(x_train.shape, x_test.shape)
-print(y_train.shape, y_test.shape)
+# numpy로 변환
+x_train = x_train.values
+y_train = y_train.values
 
 # x, y = shuffle(x, y, random_state=2022)
 # num = int(len(y)*0.8)
@@ -68,18 +57,15 @@ print(y_train.shape, y_test.shape)
 
 scaler = StandardScaler()
 scaler.fit(x_train)
-x_train_s = scaler.transform(x_train)
-x_test_s = scaler.transform(x_test)
-
-y_train = y_train.values
-y_test = y_test.values
+x_train = scaler.transform(x_train)
+x_test = scaler.transform(x_test)
 
 scores = []
 
 for i in range(3, 30):
     clf = KNeighborsClassifier(n_neighbors=i)
-    clf.fit(x_train_s, y_train)
-    s = clf.score(x_train_s, y_train)
+    clf.fit(x_train, y_train)
+    s = clf.score(x_train, y_train)
     scores.append(s)
 
 plt.plot(scores)
@@ -88,8 +74,8 @@ print(scores)
 
 # Best model
 clf = KNeighborsClassifier(n_neighbors=10)
-clf.fit(x_train_s, y_train)
-y_pred = clf.predict(x_test_s)
+clf.fit(x_train, y_train)
+y_pred = clf.predict(x_test)
 
 
 def print_score(y_true, y_pred, average="binary"):
