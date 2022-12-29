@@ -35,11 +35,13 @@ lr = LinearRegression()
 lr.fit(x_train, y_train)
 
 # 최종 선
+print(lr.score(x_train, y_train))
 print(lr.coef_)
 print(lr.intercept_)
 
 # 테스트
 y_pred = lr.predict(x_test)
+print(lr.score(x_test, y_pred))
 # RMSE
 print(np.sqrt(mean_squared_error(y_test, y_pred)))
 # Cross validation
