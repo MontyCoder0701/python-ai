@@ -40,6 +40,9 @@ py -m pip install [library-name]
 - KNN
 - SVM
 - Decision Tree
+- Ensemble
+- Regression
+- Unsupervised
 
 ## Downloading files
 
