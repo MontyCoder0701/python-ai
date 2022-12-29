@@ -52,9 +52,8 @@ import numpy as np
 # sns.heatmap(data=data, annot=True, cmap="coolwarm")
 
 # Iris
-df = pd.read_csv("iris.csv")
-print(df)
+df = pd.read_csv("basics/iris.csv")
 
-df = df.drop(columns=["Id", "Species"])
-sns.pairplot(df, hue=["Species"])
+sns.scatterplot(data=df, x="SepalLengthCm",
+                y="SepalWidthCm", hue="Species")
 plt.show()
