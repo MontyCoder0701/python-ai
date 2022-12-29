@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import cross_val_score
@@ -15,7 +15,6 @@ housing = fetch_california_housing()
 # Df로 변환
 df = pd.DataFrame(data=housing.data, columns=housing.feature_names)
 df["target"] = housing.target
-print(df)
 
 # x,y 분리
 x = df[["MedInc", "HouseAge", "AveRooms"]]
@@ -31,12 +30,8 @@ scaler.fit_transform(x_train)
 y_train = y_train.values
 
 # Fit
-lr = LinearRegression()
+lr = DecisionTreeRegressor()
 lr.fit(x_train, y_train)
-
-# 최종 선
-print(lr.coef_)
-print(lr.intercept_)
 
 # 테스트
 y_pred = lr.predict(x_test)
