@@ -24,17 +24,19 @@ lr = LinearRegression()
 lr.fit(x_train, y_train)
 
 # 최종 선
-print(lr.coef_)
-print(lr.intercept_)
+# print(lr.coef_)
+# print(lr.intercept_)
 
 y_pred = lr.predict(x_train)
-print(y_pred)
+# print(y_pred)
 
 sns.scatterplot(x=x_train.reshape(-1), y=y_train)
 plt.plot(x_train.reshape(-1), y_pred, "r")
 plt.show()
 
 # 평가
+print(lr.score(x_train, y_train))
+
 # MSE
 print(mean_squared_error(y_train, y_pred))
 # RMSE
@@ -44,6 +46,8 @@ print(mean_absolute_error(y_train, y_pred))
 
 # 테스트
 y_pred = lr.predict(x_test.reshape(-1, 1))
+print(lr.score(x_test.reshape(-1, 1), y_test))
+
 # RMSE
 print(np.sqrt(mean_squared_error(y_test, y_pred)))
 

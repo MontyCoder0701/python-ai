@@ -41,7 +41,8 @@ print(lr.intercept_)
 
 # 테스트
 y_pred = lr.predict(x_test)
-print(lr.score(x_test, y_pred))
+print(lr.score(x_test, y_test))
+
 # RMSE
 print(np.sqrt(mean_squared_error(y_test, y_pred)))
 # Cross validation

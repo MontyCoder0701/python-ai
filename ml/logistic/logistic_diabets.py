@@ -57,7 +57,7 @@ print(lr.score(x_train, y_train))
 
 # 테스트
 y_pred = lr.predict(x_test)
-print(lr.score(x_test, y_pred))
+print(lr.score(x_test, y_test))
 
 y_pred = lr.predict_proba(x_test)
 y_pred = np.argmax(y_pred, axis=1)
