@@ -22,6 +22,12 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 .\env\Scripts\activate.ps1
 ```
 
+For tensorflow, make sure the current Python interpreter is Python 3.10.
+
+```sh
+pip install tensorflow
+```
+
 ## Installing libraries
 
 ```sh
@@ -43,6 +49,10 @@ py -m pip install [library-name]
 - Ensemble
 - Regression
 - Unsupervised
+
+## Tensorflow
+
+- Linear gradient tape
 
 ## Downloading files
 
