@@ -48,7 +48,7 @@ model.compile(
 )
 
 # 학습
-epochs = 100
+epochs = 50
 batch_size = 32
 
 history = model.fit(x_train_s, y_train, epochs=epochs,
