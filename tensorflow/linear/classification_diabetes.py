@@ -1,12 +1,14 @@
 # Binary classification (Diabetes dataset)
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, mean_squared_error
 import tensorflow as tf
 from tensorflow import keras
 from keras import layers
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import seaborn as sns
 
 df = pd.read_csv("ml/logistic/diabetes.csv")
 
@@ -86,3 +88,33 @@ def plot_history(history):
 
 
 plot_history(history)  # 과적합
+
+# 예측
+x_test_s = scaler.transform(x_test)
+y_test = y_test.values
+
+y_pred = model.predict(x_test_s)
+
+# 모양 맞춰주기
+print(y_pred.shape)
+print(y_test.shape)
+
+y_pred = y_pred.reshape(-1)
+print(mean_squared_error(y_test, y_pred))
+
+# Confusion Matrix
+# 0과 1로 변환 (이진분류)
+y_pred = ((y_pred > 0.5).astype(int))
+
+
+def plot_confusion_matrix(y_true, y_pred):
+    cfm = confusion_matrix(y_true, y_pred)
+
+    plt.figure(figsize=(5, 5))
+    sns.heatmap(cfm, annot=True, cbar=False, fmt="d")
+    plt.xlabel("Predicted Class")
+    plt.ylabel("True Class")
+    plt.show()
+
+
+plot_confusion_matrix(y_test, y_pred)
