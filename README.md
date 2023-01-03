@@ -27,6 +27,7 @@ pip install tensorflow
 ## Tensorflow
 
 - Linear gradient tape
+- Linear regression (Keras)
 
 ## Downloading files
 
