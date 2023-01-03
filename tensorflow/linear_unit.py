@@ -12,9 +12,12 @@ model = keras.Sequential([
 
 model.summary()
 
+# adam = tf.keras.optimizers.Adam(learning_rate=0.01)
+sgd = tf.keras.optimizers.SGD(learning_rate=0.01)
+
 # Compile
 model.compile(
-    optimizer="adam",
+    optimizer=sgd,
     loss="mse",
     metrics=["mse", "mae"]
 )
@@ -23,7 +26,7 @@ model.compile(
 x_train = np.array([1., 2., 3., 4., 5., 6.])
 y_train = np.array([9., 12., 15., 18., 21., 24.])
 
-model.fit(x_train, y_train, epochs=5000, verbose=1)
+model.fit(x_train, y_train, epochs=5000, batch_size=len(x_train), verbose=1)
 
 # 평가
 model.evaluate(x_train, y_train)
