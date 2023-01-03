@@ -31,7 +31,6 @@ y_train = y_train.values
 model = keras.Sequential([
     layers.Dense(units=64, activation="relu", input_shape=(8,)),
     layers.Dense(units=32, activation="relu"),
-    layers.Dense(units=8, activation="relu"),
     # 이진 분류 모델 (sigmoid 출력층 - 0 혹은 1)/ 다중분류 (softmax)
     layers.Dense(units=1, activation="sigmoid"),
 ])
@@ -49,7 +48,7 @@ model.compile(
 )
 
 # 학습
-epochs = 500
+epochs = 100
 batch_size = 32
 
 history = model.fit(x_train_s, y_train, epochs=epochs,
