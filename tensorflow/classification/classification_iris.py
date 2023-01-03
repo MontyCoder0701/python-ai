@@ -114,3 +114,20 @@ y_test_oh = to_categorical(y_test)
 y_pred = model.predict(x_test_s)
 
 print(mean_squared_error(y_test_oh, y_pred))
+
+# Confusion Matrix
+# One-hot 전으로 되돌리기 (정답값의 형태로)
+y_pred = np.argmax(y_pred, axis=1)
+
+
+def plot_confusion_matrix(y_true, y_pred):
+    cfm = confusion_matrix(y_true, y_pred)
+
+    plt.figure(figsize=(5, 5))
+    sns.heatmap(cfm, annot=True, cbar=False, fmt="d")
+    plt.xlabel("Predicted Class")
+    plt.ylabel("True Class")
+    plt.show()
+
+
+plot_confusion_matrix(y_test, y_pred)
