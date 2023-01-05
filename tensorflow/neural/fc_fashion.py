@@ -1,4 +1,4 @@
-# Fully connected layer (Image classification- Fashion Dataset)
+# Fully connected layer (BW Image classification- Fashion Dataset)
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, mean_squared_error
