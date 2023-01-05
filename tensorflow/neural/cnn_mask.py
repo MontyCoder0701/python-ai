@@ -210,6 +210,8 @@ model.evaluate(x_test, y_test)
 
 # 예측
 y_pred = model.predict(x_test)
+y_pred = y_pred.reshape(-1)
+y_pred = (y_pred > 0.5).astype('int')
 
 # 오답인 이미지 출력
 samples = np.where((y_test == y_pred) == False)[0]
@@ -223,5 +225,5 @@ for i, idx in enumerate(samples):
     plt.imshow(x_test[idx])
     plt.xticks([])
     plt.yticks([])
-    plt.title(class_name[y_test[idx]])
+    plt.title(f'{class_name[y_test[idx]]}, ({class_name[y_pred[idx]]})')
 plt.show()
