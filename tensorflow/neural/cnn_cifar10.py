@@ -44,7 +44,7 @@ x_train, x_val, y_train, y_val = train_test_split(
 # Min-max 정규화 (0~1 사이 값)
 x_train = x_train.astype("float32")/255
 x_val = x_val.astype("float32")/255
-x_text = x_test.astype("float32")/255
+x_test = x_test.astype("float32")/255
 
 # Y값 One-hot 인코딩 (다중분류)
 y_train_oh = to_categorical(y_train)
@@ -77,7 +77,7 @@ model = keras.Sequential([
 
     # Dense 넣기 전에 flatten
     layers.Flatten(),
-    # layers.Dropout(0.5),
+    layers.Dropout(0.5),
 
     layers.Dense(units=64, activation="relu"),
     # 이진 분류 모델 (sigmoid 출력층 - 0 혹은 1)/ 다중분류 (softmax)
@@ -87,7 +87,7 @@ model = keras.Sequential([
 model.summary()
 
 model.compile(
-    optimizer="rmsprop",
+    optimizer="adam",
     loss="categorical_crossentropy",
     metrics=["acc"]
 )
@@ -102,12 +102,19 @@ ckpt_callback = callbacks.ModelCheckpoint(
     verbose=1,
 )
 
+# Early stopping
+es_callback = callbacks.EarlyStopping(
+    monitor="val_loss",
+    patience=5,
+    verbose=1,
+)
+
 
 # 학습
 epochs = 30
 batch_size = 32
 
-history = model.fit(x_train, y_train_oh, epochs=epochs, callbacks=[ckpt_callback],
+history = model.fit(x_train, y_train_oh, epochs=epochs, callbacks=[ckpt_callback, es_callback],
                     batch_size=batch_size, validation_data=(x_val, y_val_oh), verbose=1)
 
 # matplotlib
@@ -136,6 +143,9 @@ def plot_history(history):
 
 
 plot_history(history)
+
+# 저장된 최종 상태 가져오기
+model.load_weights(ckpt_path)
 
 # 평가
 model.evaluate(x_train, y_train_oh)
