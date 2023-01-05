@@ -1,5 +1,4 @@
-# CNN (Colored Image classification- Dog v Cats): Binary
-import os
+# CNN (Colored Image classification- Dog v Cats)
 from keras import callbacks
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,9 +15,10 @@ from keras.utils import to_categorical
 import PIL
 
 # Data 준비
-# !wget https: // storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip
+# !wget https://storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip
 # !unzip cats_and_dogs_filtered.zip
 
+import os
 
 data_root = "/content/cats_and_dogs_filtered"
 train_dir = os.path.join(data_root, "train")
@@ -104,29 +104,22 @@ print(x_train.shape)  # input shape 알기 위해
 
 # Batch normalization, dropout 추가
 model = keras.Sequential([
-    layers.Conv2D(filters=16, kernel_size=3, input_shape=(224, 224, 3)),
-    layers.BatchNormalization(),
-    layers.ReLU(),
+    layers.Conv2D(filters=16, kernel_size=3, input_shape=(
+        224, 224, 3), activation="relu"),
     layers.MaxPool2D(2),
     # Overfitting 줄이기 위해 dropout
     # layers.Dropout(0.3),
 
-    layers.Conv2D(filters=64, kernel_size=3),
-    layers.BatchNormalization(),
-    layers.ReLU(),
+    layers.Conv2D(filters=64, kernel_size=3, activation="relu"),
     layers.MaxPool2D(2),
     # layers.Dropout(0.3),
 
-    layers.Conv2D(filters=128, kernel_size=3),
-    layers.BatchNormalization(),
-    layers.ReLU(),
+    layers.Conv2D(filters=128, kernel_size=3, activation="relu"),
     layers.MaxPool2D(2),
     # layers.Dropout(0.3),
 
     # Dense 넣기 전에 flatten
     layers.Flatten(),
-    layers.Dropout(0.5),
-
     layers.Dense(units=64, activation="relu"),
     # 이진 분류 모델 (sigmoid 출력층 - 0 혹은 1)/ 다중분류 (softmax)
     layers.Dense(units=1, activation="sigmoid"),
