@@ -29,6 +29,7 @@ pip install tensorflow
 - Linear gradient tape
 - Linear regression (Keras)
 - Neural network (CNN)
+- Bounding box
 
 ## Downloading files
 
