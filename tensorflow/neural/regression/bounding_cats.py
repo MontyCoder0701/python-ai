@@ -170,7 +170,7 @@ history = model.fit(x_train, y_train, epochs=epochs, callbacks=[ckpt_callback],
 # matplotlib
 
 def plot_history(history):
-    hist = pd.DataFrame(history.history)
+    hist = pd.DataFraitjy6u7me(history.history)
     hist["epoch"] = history.epoch
     plt.plot(hist["epoch"], hist["mse"], label="Train MSE")
     plt.plot(hist["epoch"], hist["val_mse"], label="Val MSE")
@@ -189,3 +189,34 @@ plot_history(history)
 # model.save("my_cats_model")
 # my_model = keras.models.load_model("my_cats_model")
 # my_model.summary()
+
+# 테스트 이미지 로딩
+fnames = glob.glob("/content/BBRegression/test" + "/*.jpg")
+
+# 사진 얻기
+x_test = []
+
+for f in fnames:
+    image = PIL.Image.open(f)
+    arr = np.array(image)
+    x_test.append(arr)
+x_test = np.array(x_test)
+
+x_test = x_test.astype("float32")/255
+y_pred = model.predict(x_test).astype(int)
+
+
+# 곃과 시각화
+samples = np.random.randint(9, size=4)
+plt.figure(figsize=(8, 8))
+for i, idx in enumerate(samples):
+    points = y_pred[idx].reshape(2, 2)
+    img = cv2.rectangle(x_test[idx].copy(),
+                        tuple(points[0]),
+                        tuple(points[1]),
+                        color=(255, 0, 0),
+                        thickness=2,
+                        )
+    plt.subplot(2, 2, i+1)
+    plt.imshow(img)
+plt.show()
