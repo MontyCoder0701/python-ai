@@ -83,7 +83,11 @@ print(x_train.shape, x_test.shape)
 # RNN Model
 model = keras.Sequential()
 # RNN input shape (timestamp, features)
-model.add(layers.LSTM(32, activation="tanh", input_shape=(20, 7)))
+model.add(layers.LSTM(32, activation="tanh",
+          return_sequences=True, input_shape=(20, 7)))
+model.add(layers.Dropout(0.2))
+model.add(layers.LSTM(32, activation="tanh"))
+model.add(layers.Dropout(0.2))
 model.add(layers.Dense(1))
 
 model.summary()
