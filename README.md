@@ -30,6 +30,7 @@ pip install tensorflow
 - Linear regression (Keras)
 - Neural network (CNN)
 - Bounding box
+- YOLO5
 
 ## Downloading files
 
