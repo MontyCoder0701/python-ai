@@ -8,7 +8,7 @@ from tensorflow import keras
 from keras import layers
 import pandas as pd
 
-# 이상피 처리
+# 이상치 처리
 df = pd.read_csv("tensorflow/linear/auto-mpg.csv", na_values=["?"])
 print(df)
 
