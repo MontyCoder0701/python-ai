@@ -1,5 +1,6 @@
 # IMDB 영화리뷰 이진분류
 
+import re
 from keras.utils import to_categorical, pad_sequences
 import numpy as np
 import pandas as pd
@@ -43,8 +44,10 @@ train_oh = to_categorical(train_seq)
 print(train_oh.shape)
 
 # 모델
+# 모델
 model = keras.Sequential([
-    layers.LSTM(20, activation="tanh", input_shape=(200, 1000)),
+    layers.Embedding(500, 16, input_length=200),  # One hot 필요 없음
+    layers.LSTM(20, activation="tanh"),
     layers.Dense(1, activation="sigmoid")
 ])
 
@@ -102,4 +105,43 @@ plot_history(history)
 model.load_weights(ckpt_path)
 
 # 평가
-model.evaluate(train_oh, train_target)
+model.evaluate(train_seq, train_target)
+
+# Testing
+
+review_sentence = "This was the best movie I ever saw! I want to see it again. it is quite amazing, and I definitely recommend it to whoever is bored."
+
+# 문장 처리리
+word_to_index = imdb.get_word_index()
+index_to_word = {}
+
+for key, value in word_to_index.items():
+    index_to_word[value+3] = key
+
+index_to_word[0] = "<PAD>"
+index_to_word[1] = "<SOS>"
+index_to_word[2] = "<OOV>"
+
+review_sentence = re.sub("[^0-9a-zA-Z ]", "", review_sentence)  # non letter 처리
+review_sentence = review_sentence.lower()
+print(review_sentence)
+
+encoded = []
+
+for word in review_sentence:
+    try:
+        if word_to_index[word] <= 500:
+            encoded.append(word_to_index[word]+3)
+        else:
+            encoded.append(2)
+    except KeyError:
+        encoded.append(2)
+
+print(encoded)
+
+# Padding
+pad_new = pad_sequences([encoded], maxlen=200)
+
+# 결과
+y_pred = model.predict(pad_new)
+print(y_pred)
