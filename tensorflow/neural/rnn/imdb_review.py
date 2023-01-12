@@ -111,7 +111,7 @@ model.evaluate(train_seq, train_target)
 
 review_sentence = "This was the best movie I ever saw! I want to see it again. it is quite amazing, and I definitely recommend it to whoever is bored."
 
-# 문장 처리리
+# 문장 처리
 word_to_index = imdb.get_word_index()
 index_to_word = {}
 
