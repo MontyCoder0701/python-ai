@@ -32,7 +32,7 @@ x_train, x_val, y_train, y_val = train_test_split(
 # Min-max 정규화 (0~1 사이 값)
 x_train = x_train.astype("float32")/255
 x_val = x_val.astype("float32")/255
-x_text = x_test.astype("float32")/255
+x_test = x_test.astype("float32")/255
 
 # # One-hot 이용하기
 # # Y값 One-hot 인코딩 (다중분류)
